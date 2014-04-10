@@ -1,0 +1,8 @@
+target
+bin
+datasource.properties
+.springBeans
+.settings
+.classpath
+.project
+temp
