@@ -11,7 +11,7 @@ import de.ahaus.dennis.javautils.impl.xml.XmlUtil;
 public class TestAbstractTest extends AbstractTestCoverage {
 
 	@Test
-	@MethodUnderTest("doSOmthing")
+	@MethodUnderTest("doSomething")
 	public void test() {
 
 	}
