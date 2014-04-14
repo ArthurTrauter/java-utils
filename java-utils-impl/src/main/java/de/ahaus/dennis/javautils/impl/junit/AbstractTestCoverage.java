@@ -1,8 +1,9 @@
-package de.ahaus.dennis.javautils.impl.junit.annotations;
+package de.ahaus.dennis.javautils.impl.junit;
 
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -10,6 +11,9 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import de.ahaus.dennis.javautils.impl.junit.annotations.ClassUnderTest;
+import de.ahaus.dennis.javautils.impl.junit.annotations.MethodUnderTest;
 
 public abstract class AbstractTestCoverage {
 
@@ -22,43 +26,33 @@ public abstract class AbstractTestCoverage {
 
 	private boolean done = false;
 	private Map<String, Integer> testCoverage = new HashMap<String, Integer>();
-
-	ClassUnderTest classUnderTest = null;
-
-	interface MethodInterceptor {
-		void before(Method method);
-
-		void intercept(Method method);
-
-		void after(Method method);
-	}
-
-	abstract class MethodInterceptorAdapter implements MethodInterceptor {
+	private Object testObject;
+	private ClassUnderTest classUnderTest = null;
+	private VisitorAdapter<Method> methodVisitor = new VisitorAdapter<Method>() {
 
 		@Override
-		public void before(Method method) {
+		public void intercept(Method object) {
 
+			// TODO Auto-generated method stub
+			super.intercept(object);
 		}
+	};
 
-		@Override
-		public void intercept(Method method) {
+	public AbstractTestCoverage(Object testObject) {
 
-		}
-
-		@Override
-		public void after(Method method) {
-
-		}
-
+		this.testObject = testObject;
+		classUnderTest = this.testObject.getClass().getAnnotation(
+				ClassUnderTest.class);
 	}
 
 	public AbstractTestCoverage() {
 
 		classUnderTest = this.getClass().getAnnotation(ClassUnderTest.class);
+
 	}
 
 	@Test
-	public void checkTestMethodsCoverage() {
+	public void testCheckTestMethodsCoverage() {
 
 		if (done) {
 			return;
@@ -69,7 +63,11 @@ public abstract class AbstractTestCoverage {
 					+ ClassUnderTest.class.getSimpleName() + " found!");
 		}
 
-		interceptClassUnderTestDeclaredMethods();
+		MethodHostProvider provider = new MethodHostProvider();
+		provider.setElements(getMethodsUnterTest());
+		provider.iterate(methodVisitor);
+
+		interateClassUnderTestDeclaredMethods();
 
 		interceptThisDeclaredMethodsUnderTest();
 
@@ -79,7 +77,7 @@ public abstract class AbstractTestCoverage {
 
 	}
 
-	public void testMethodsNotCovered() {
+	protected void testMethodsNotCovered() {
 
 		Iterator<String> it = testCoverage.keySet().iterator();
 		while (it.hasNext()) {
@@ -103,7 +101,7 @@ public abstract class AbstractTestCoverage {
 
 	}
 
-	protected void interceptThisDeclaredMethodsUnderTest() {
+	protected void visitClassUnterTestMethods(MethodVisitor visitor) {
 
 		Method[] methodsUnderTest = getMethodsUnterTest();
 
@@ -120,18 +118,20 @@ public abstract class AbstractTestCoverage {
 
 	}
 
-	protected void interceptClassUnderTestDeclaredMethods() {
+	protected void interateClassUnderTestDeclaredMethods() {
 
 		Method[] classUnderTestMethods = this.classUnderTest.value()
 				.getDeclaredMethods();
 
-		intercept(classUnderTestMethods, new MethodInterceptorAdapter() {
-			@Override
-			public void intercept(Method method) {
+		MethodHostProvider provider = new MethodHostProvider();
+		provider.iterate(Arrays.asList(classUnderTestMethods),
+				new VisitorAdapter<Method>() {
+					@Override
+					public void intercept(Method object) {
 
-				addValue(method.getName());
-			}
-		});
+						addValue(object.getName());
+					}
+				});
 
 	}
 
@@ -147,13 +147,23 @@ public abstract class AbstractTestCoverage {
 
 	}
 
-	protected void intercept(Method[] methods, MethodInterceptor interceptor) {
+	protected void intercept(Method[] methods, Visitor interceptor) {
 
 		for (Method method : methods) {
 			interceptor.before(method);
 			interceptor.intercept(method);
 			interceptor.after(method);
 		}
+
+	}
+
+	private MethodHostProvider createClassUnderTestMethodsProvider() {
+
+		Method[] classUnderTestMethods = this.classUnderTest.value()
+				.getDeclaredMethods();
+
+		MethodHostProvider provider = new MethodHostProvider();
+		provider.iterate(elements, visitor);
 
 	}
 
@@ -170,6 +180,12 @@ public abstract class AbstractTestCoverage {
 
 	}
 
+	/**
+	 * Generate an array from given {@link List}
+	 * 
+	 * @param methods
+	 * @return
+	 */
 	private Method[] toArray(List<Method> methods) {
 
 		return methods.toArray(new Method[methods.size()]);
