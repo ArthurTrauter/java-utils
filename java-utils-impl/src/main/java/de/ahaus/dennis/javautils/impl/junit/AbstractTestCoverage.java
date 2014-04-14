@@ -23,20 +23,46 @@ public abstract class AbstractTestCoverage {
 	// we also should consider a parameter like failureBehavior=Enums.ASSERT /
 	// Enums.execption
 	// to make an Assert... or throw an Exception on coverage failure
+	
+	/**
+	 * Activities:
+	 * <ol>
+	 * 	<li>Get methods in class under test</li>
+	 * 	<li>Get methods in current test object class</li>
+	 * </ol>
+	 * @author Dennis Ahaus
+	 *
+	 */
+
+	class MethodVisitor extends VisitorAdapter<Method> {
+
+		HashMap<String, Integer> coveredMethods = new HashMap<String, Integer>();
+		List<Method> notCoveredMethods = new ArrayList<>();
+
+		@Override
+		public void visit(Method object) {
+
+		}
+
+		private void addValue(String key) {
+
+			if (this.coveredMethods.containsKey(key)) {
+				int val = this.coveredMethods.get(key);
+				val++;
+				this.coveredMethods.put(key, val);
+			} else {
+				this.coveredMethods.put(key, 0);
+			}
+
+		}
+
+	}
 
 	private boolean done = false;
 	private Map<String, Integer> testCoverage = new HashMap<String, Integer>();
 	private Object testObject;
 	private ClassUnderTest classUnderTest = null;
-	private VisitorAdapter<Method> methodVisitor = new VisitorAdapter<Method>() {
-
-		@Override
-		public void intercept(Method object) {
-
-			// TODO Auto-generated method stub
-			super.intercept(object);
-		}
-	};
+	MethodVisitor methodVisitor = new MethodVisitor();
 
 	public AbstractTestCoverage(Object testObject) {
 
@@ -52,7 +78,7 @@ public abstract class AbstractTestCoverage {
 	}
 
 	@Test
-	public void testCheckTestMethodsCoverage() {
+	public void testMethodCoverage() {
 
 		if (done) {
 			return;
@@ -63,17 +89,29 @@ public abstract class AbstractTestCoverage {
 					+ ClassUnderTest.class.getSimpleName() + " found!");
 		}
 
-		MethodHostProvider provider = new MethodHostProvider();
-		provider.setElements(getMethodsUnterTest());
-		provider.iterate(methodVisitor);
-
-		interateClassUnderTestDeclaredMethods();
-
-		interceptThisDeclaredMethodsUnderTest();
-
-		testMethodsNotCovered();
+		visitClassUnterTestMethods(methodVisitor);
 
 		done = true;
+
+	}
+
+	/**
+	 * @param visitor
+	 */
+	protected void visitClassUntertestMethods(Visitor<Method> visitor) {
+
+		HostProviderAdapter<Method> provider = new HostProviderAdapter<Method>() {
+
+			@Override
+			protected List<Method> getElements() {
+
+				return Arrays
+						.asList(getCurrentClassMethodsWithMethodUnderTestAnnotation());
+			}
+		};
+		List<Method> methods = Arrays
+				.asList(getCurrentClassMethodsWithMethodUnderTestAnnotation());
+		provider.iterate(methods, methodVisitor);
 
 	}
 
@@ -101,23 +139,6 @@ public abstract class AbstractTestCoverage {
 
 	}
 
-	protected void visitClassUnterTestMethods(MethodVisitor visitor) {
-
-		Method[] methodsUnderTest = getMethodsUnterTest();
-
-		intercept(methodsUnderTest, new MethodInterceptorAdapter() {
-			@Override
-			public void intercept(Method method) {
-
-				String methodUnderTest = method.getAnnotation(
-						MethodUnderTest.class).value();
-				addValue(methodUnderTest);
-
-			}
-		});
-
-	}
-
 	protected void interateClassUnderTestDeclaredMethods() {
 
 		Method[] classUnderTestMethods = this.classUnderTest.value()
@@ -127,7 +148,7 @@ public abstract class AbstractTestCoverage {
 		provider.iterate(Arrays.asList(classUnderTestMethods),
 				new VisitorAdapter<Method>() {
 					@Override
-					public void intercept(Method object) {
+					public void visit(Method object) {
 
 						addValue(object.getName());
 					}
@@ -151,23 +172,13 @@ public abstract class AbstractTestCoverage {
 
 		for (Method method : methods) {
 			interceptor.before(method);
-			interceptor.intercept(method);
+			interceptor.visit(method);
 			interceptor.after(method);
 		}
 
 	}
 
-	private MethodHostProvider createClassUnderTestMethodsProvider() {
-
-		Method[] classUnderTestMethods = this.classUnderTest.value()
-				.getDeclaredMethods();
-
-		MethodHostProvider provider = new MethodHostProvider();
-		provider.iterate(elements, visitor);
-
-	}
-
-	protected Method[] getMethodsUnterTest() {
+	protected Method[] getCurrentClassMethodsWithMethodUnderTestAnnotation() {
 
 		List<Method> methods = new ArrayList<Method>();
 		Method[] currentClassMethods = this.getClass().getMethods();
@@ -177,6 +188,22 @@ public abstract class AbstractTestCoverage {
 			}
 		}
 		return toArray(methods);
+
+	}
+
+	protected String getMethodUnderTestAnnotationValue(Method method) {
+
+		if (method.isAnnotationPresent(MethodUnderTest.class)) {
+			return method.getAnnotation(MethodUnderTest.class).value();
+		}
+		return null;
+	}
+
+	protected Method[] getClassUnderTestMethods() {
+
+		Method[] classUnderTestMethods = this.classUnderTest.value()
+				.getDeclaredMethods();
+		return classUnderTestMethods;
 
 	}
 
@@ -190,4 +217,5 @@ public abstract class AbstractTestCoverage {
 
 		return methods.toArray(new Method[methods.size()]);
 	}
+
 }
