@@ -4,7 +4,7 @@ interface Visitor<T> {
 
 	void before(T object);
 
-	void intercept(T object);
+	void visit(T object);
 
 	void after(T object);
 

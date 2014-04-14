@@ -8,7 +8,7 @@ public abstract class VisitorAdapter<T> implements Visitor<T> {
 	}
 
 	@Override
-	public void intercept(T object) {
+	public void visit(T object) {
 
 	}
 

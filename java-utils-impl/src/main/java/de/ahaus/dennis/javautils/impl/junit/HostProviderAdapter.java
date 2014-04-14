@@ -9,7 +9,7 @@ public abstract class HostProviderAdapter<T> implements HostProvider<T> {
 
 		for (T elem : elements) {
 			visitor.before(elem);
-			visitor.intercept(elem);
+			visitor.visit(elem);
 			visitor.after(elem);
 		}
 
