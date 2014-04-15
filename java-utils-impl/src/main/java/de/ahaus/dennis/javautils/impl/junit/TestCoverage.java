@@ -12,7 +12,7 @@ import org.junit.Test;
 import de.ahaus.dennis.javautils.impl.junit.annotations.ClassUnderTest;
 import de.ahaus.dennis.javautils.impl.junit.annotations.MethodUnderTest;
 
-public abstract class AbstractTestCoverage {
+public class TestCoverage {
 
 	// maybe we should use internal object with constructor parameter.
 	// this can be used to let the child class to not extend this class
@@ -65,14 +65,14 @@ public abstract class AbstractTestCoverage {
 	private Object testObject;
 	private ClassUnderTest classUnderTest = null;
 
-	public AbstractTestCoverage(Object testObject) {
+	public TestCoverage(Object testObject) {
 
 		this.testObject = testObject;
 		classUnderTest = this.testObject.getClass().getAnnotation(
 				ClassUnderTest.class);
 	}
 
-	public AbstractTestCoverage() {
+	public TestCoverage() {
 
 		classUnderTest = this.getClass().getAnnotation(ClassUnderTest.class);
 
