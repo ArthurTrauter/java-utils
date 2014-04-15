@@ -14,23 +14,7 @@ import de.ahaus.dennis.javautils.impl.junit.annotations.MethodUnderTest;
 
 public class TestCoverage {
 
-	// maybe we should use internal object with constructor parameter.
-	// this can be used to let the child class to not extend this class
-	// we also should impl param to write report to outputStream
-	// we also should consider a parameter like failureBehavior=Enums.ASSERT /
-	// Enums.execption
-	// to make an Assert... or throw an Exception on coverage failure
 
-	/**
-	 * Activities:
-	 * <ol>
-	 * <li>Get methods in class under test</li>
-	 * <li>Get methods under test in current test object class</li>
-	 * </ol>
-	 * 
-	 * @author Dennis Ahaus
-	 * 
-	 */
 
 	class MethodVisitor extends VisitorAdapter<Method> {
 
@@ -97,6 +81,7 @@ public class TestCoverage {
 		for (HostProvider<Method> hostProvider : providers) {
 			hostProvider.iterate(visitor);
 		}
+
 		System.out.println(coveredMethods);
 
 		done = true;
@@ -169,6 +154,7 @@ public class TestCoverage {
 
 		Method[] classUnderTestMethods = this.classUnderTest.value()
 				.getDeclaredMethods();
+		
 		return classUnderTestMethods;
 
 	}

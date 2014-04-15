@@ -11,4 +11,6 @@ public @interface ClassUnderTest {
 
 	Class<?> value();
 
+	OnFailBehavior onFailBehavior() default OnFailBehavior.ASSERT;
+
 }
