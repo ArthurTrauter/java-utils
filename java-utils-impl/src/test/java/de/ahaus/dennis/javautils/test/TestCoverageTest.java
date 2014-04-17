@@ -8,12 +8,19 @@ import de.ahaus.dennis.javautils.impl.junit.annotations.MethodUnderTest;
 import de.ahaus.dennis.javautils.impl.xml.XmlUtil;
 
 @ClassUnderTest(XmlUtil.class)
-public class TestAbstractTest extends TestCoverage {
+public class TestCoverageTest extends TestCoverage {
 
 	@Test
 	@MethodUnderTest("doSomething")
-	public void test() {
+	public void test() throws NoSuchMethodException, SecurityException {
 
 	}
+	
+	@Test
+	@MethodUnderTest("doSomething")
+	public void test2() {
+
+	}
+
 
 }

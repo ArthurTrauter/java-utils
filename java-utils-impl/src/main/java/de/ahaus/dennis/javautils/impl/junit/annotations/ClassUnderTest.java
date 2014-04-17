@@ -13,6 +13,6 @@ public @interface ClassUnderTest {
 
 	OnFailBehavior onFailBehavior() default OnFailBehavior.ASSERT;
 
-	Methods methods() default Methods.DECLARED;
+	MethodType methods() default MethodType.DECLARED;
 
 }

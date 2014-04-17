@@ -7,7 +7,7 @@ import java.util.List;
  * 
  * @param <T>
  */
-public abstract class Provider<T> {
+public class Provider<T> {
 
 	public void iterate(List<T> list, Interceptor<T> interceptor) {
 		for (T obj : list) {
