@@ -4,13 +4,13 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CoveredMethod {
+public class MethodCoverage {
 
 	Method coveredMethod;
 
 	List<Method> coveredByMethods = new ArrayList<>();
 
-	public CoveredMethod(Method coveredMethod) {
+	public MethodCoverage(Method coveredMethod) {
 		super();
 		this.coveredMethod = coveredMethod;
 	}
