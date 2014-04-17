@@ -1,0 +1,20 @@
+package de.ahaus.dennis.javautils.impl.iterate;
+
+import java.util.List;
+
+/**
+ * @author Dennis Ahaus
+ * 
+ * @param <T>
+ */
+public abstract class Provider<T> {
+
+	public void iterate(List<T> list, Interceptor<T> interceptor) {
+		for (T obj : list) {
+			interceptor.before(obj);
+			interceptor.intercept(obj);
+			interceptor.after(obj);
+		}
+	}
+
+}
