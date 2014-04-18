@@ -11,7 +11,7 @@ public @interface ClassUnderTest {
 
 	Class<?> value();
 
-	OnFailBehavior onFailBehavior() default OnFailBehavior.ASSERT;
+	OnFailBehavior onFailBehavior() default OnFailBehavior.JUNIT_ASSERT;
 
 	MethodType methods() default MethodType.DECLARED;
 
