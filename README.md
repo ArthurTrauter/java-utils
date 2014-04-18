@@ -58,11 +58,14 @@ In this annotation you can also control if the junit test should fail by a regul
 There is an additional parameter `methods` which gives control over the methods which should be covered in class under test. Here you can decide wheter all methods (inclusive those from parent classes) should be covered or only the declared ones in class under test.
 
 ###### @MethodUnderTest
-This annoation is needed to maintain the "method under test". In other words the method which exists inside the class under test and is tested by this annotated test method.
+This annoation is needed to maintain the "method under test". In other words the method which exists inside the class under test and is tested by this annotated test method. The name of the method is case sensitive and is used without any other signatures.
+
+#### Summary
+It is very easy and fast to add some annotations to your test classes while coding. This implementation will help to write better code because tests will fail when there is a method not covered. So whenever you add a new method to your class under test all tests will fail until there is a testmethod which covers that new method. This ends up in a better execution and test quality and keeps the developer on to write more tests.
 
 ## XML
 
 ### w3c.dom.Document utils
 
-Documention will be finished the next days. Furthermore see implementation [XmlUtil](java-utils-impl/src/main/java/de/ahaus/dennis/javautils/impl/xml/XmlUtil.java)
+Documention will be arrive asap the next days. Furthermore see implementation [XmlUtil](java-utils-impl/src/main/java/de/ahaus/dennis/javautils/impl/xml/XmlUtil.java)
 
