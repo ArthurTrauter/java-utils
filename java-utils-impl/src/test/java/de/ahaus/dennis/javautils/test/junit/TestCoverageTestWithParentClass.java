@@ -6,16 +6,13 @@ import de.ahaus.dennis.javautils.impl.junit.TestCoverage;
 import de.ahaus.dennis.javautils.impl.junit.annotations.ClassUnderTest;
 import de.ahaus.dennis.javautils.impl.junit.annotations.MethodUnderTest;
 import de.ahaus.dennis.javautils.impl.junit.annotations.OnFailBehavior;
-import de.ahaus.dennis.javautils.impl.xml.XmlUtil;
 
 /**
  * @author Dennis Ahaus
  * 
  */
-@ClassUnderTest(value=TestCoverageTest.class, onFailBehavior=OnFailBehavior.EXCEPTION)
-public class TestCoverageTest extends TestCoverage {
-	
-	//TestCoverage coverage = new TestCoverage();
+@ClassUnderTest(value = TestCoverageTestWithParentClass.class, onFailBehavior = OnFailBehavior.EXCEPTION)
+public class TestCoverageTestWithParentClass extends TestCoverage {
 
 	@Test
 	@MethodUnderTest("test1")
@@ -23,10 +20,10 @@ public class TestCoverageTest extends TestCoverage {
 
 	}
 
-	@Test
-	@MethodUnderTest("doSomething1")
+	@Test(expected = IllegalArgumentException.class)
+	@MethodUnderTest("test2")
 	public void test2() {
-
+		new TestCoverage();
 	}
 
 }
