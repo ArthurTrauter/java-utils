@@ -9,6 +9,10 @@ import java.util.List;
  */
 public class Provider<T> {
 
+	/**
+	 * @param list
+	 * @param interceptor
+	 */
 	public void iterate(List<T> list, Interceptor<T> interceptor) {
 		for (T obj : list) {
 			interceptor.before(obj);

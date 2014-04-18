@@ -13,7 +13,15 @@ import java.util.List;
  */
 public class MethodFilter {
 
+	/**
+	 * @author Dennis Ahaus
+	 * 
+	 */
 	public interface Filter {
+		/**
+		 * @param m
+		 * @return
+		 */
 		boolean accept(Method m);
 	}
 

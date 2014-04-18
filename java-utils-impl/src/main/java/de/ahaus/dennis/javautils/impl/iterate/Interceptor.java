@@ -7,14 +7,23 @@ package de.ahaus.dennis.javautils.impl.iterate;
  */
 public abstract class Interceptor<T> {
 
+	/**
+	 * @param object
+	 */
 	public void before(T object) {
 
 	}
 
+	/**
+	 * @param object
+	 */
 	public void intercept(T object) {
 
 	}
 
+	/**
+	 * @param object
+	 */
 	public void after(T object) {
 
 	}

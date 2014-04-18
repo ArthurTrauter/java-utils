@@ -29,6 +29,9 @@ public class TestCoverage {
 	boolean coverageHasBeenBuild = false;
 	boolean executed = false;
 
+	/**
+	 * 
+	 */
 	public TestCoverage() {
 
 		testClassObject = this;
@@ -36,11 +39,17 @@ public class TestCoverage {
 		doCheckParentClass();
 	}
 
+	/**
+	 * @param testClassObject
+	 */
 	public TestCoverage(Object testClassObject) {
 		super();
 		this.testClassObject = testClassObject;
 	}
 
+	/**
+	 * 
+	 */
 	protected void doCheckParentClass() {
 
 		Class<?> clazz = this.getClass().getSuperclass();
@@ -52,6 +61,9 @@ public class TestCoverage {
 
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	public void testCoverage() {
 
@@ -121,6 +133,9 @@ public class TestCoverage {
 
 	}
 
+	/**
+	 * 
+	 */
 	protected void buildMethodCoverage() {
 
 		if (methodCoverages == null) {
