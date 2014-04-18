@@ -1,4 +1,4 @@
-package de.ahaus.dennis.javautils.test;
+package de.ahaus.dennis.javautils.test.junit;
 
 import org.junit.Test;
 
