@@ -1,8 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.ahaus.dennis</groupId>
 	<artifactId>java-utils</artifactId>
-	<version>0.0.1</version>
+	<version>v0.1-SNAPSHOT</version>
 	<name>${project.artifactId}-${project.version}</name>
 	<description>java-utils for commons java programming problems</description>
 
@@ -28,8 +29,8 @@
 		<developerConnection>scm:git:https://github.com/DennisAhaus/java-utils.git</developerConnection>
 		<connection>scm:git:ssh://github.com/DennisAhaus/java-utils.git</connection>
 		<url>https://github.com/DennisAhaus/java-utils/releases</url>
-	  <tag>java-utils-0.0.1</tag>
-  </scm>
+		<tag>java-utils-0.0.1</tag>
+	</scm>
 
 	<build>
 		<plugins>
@@ -45,12 +46,13 @@
 		</plugins>
 	</build>
 
-<distributionManagement>
-    <repository>
-      <id>github</id>
-      <name>Github repo</name>
-      <url>scp://repository.mycompany.com/repository/maven2</url>
-    </repository>
-  </distributionManagement>
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>Github repo</name>
+			<url>scp://repository.mycompany.com/repository/maven2</url>
+			
+		</repository>
+	</distributionManagement>
 
 </project>
