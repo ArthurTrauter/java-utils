@@ -29,7 +29,6 @@
 		<developerConnection>scm:git:https://github.com/DennisAhaus/java-utils.git</developerConnection>
 		<connection>scm:git:ssh://github.com/DennisAhaus/java-utils.git</connection>
 		<url>https://github.com/DennisAhaus/java-utils/releases</url>
-		<tag>java-utils-0.0.1</tag>
 	</scm>
 
 	<build>
