@@ -49,10 +49,82 @@ public class MethodFilter {
 	}
 
 	/**
+	 * @param annotationClass
+	 * @return
+	 */
+	public MethodFilter addIsNotDeclaredFilter() {
+
+		addInternalFilter(new Filter() {
+
+			@Override
+			public boolean accept(Method m) {
+				try {
+					m.getDeclaringClass().getDeclaredMethod(m.getName(),
+							m.getParameterTypes());
+					return false;
+				} catch (NoSuchMethodException e) {
+					e.printStackTrace();
+					return true;
+				} catch (SecurityException e) {
+					e.printStackTrace();
+					return true;
+				}
+			}
+		});
+		return this;
+	}
+
+	/**
+	 * @return
+	 */
+	public MethodFilter addIsDeclaredFilter() {
+
+		addInternalFilter(new Filter() {
+
+			@Override
+			public boolean accept(Method m) {
+				try {
+					m.getDeclaringClass().getDeclaredMethod(m.getName(),
+							m.getParameterTypes());
+					return true;
+				} catch (NoSuchMethodException e) {
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					e.printStackTrace();
+				}
+
+				return false;
+			}
+		});
+		return this;
+	}
+
+	/**
+	 * @param modifiers
+	 * @return
+	 */
+	public MethodFilter addExcludeModifierFilter(final int modifier) {
+
+		addInternalFilter(new Filter() {
+
+			@Override
+			public boolean accept(Method m) {
+				int mod = m.getModifiers();
+				if (mod == modifier) {
+					return true;
+				}
+				return false;
+
+			}
+		});
+		return this;
+	}
+
+	/**
 	 * @param value
 	 * @return
 	 */
-	public MethodFilter addMethodNameEqualsFilter(final String value) {
+	public MethodFilter addNameEqualsFilter(final String value) {
 
 		addInternalFilter(new Filter() {
 
@@ -72,7 +144,7 @@ public class MethodFilter {
 	 * @param value
 	 * @return
 	 */
-	public MethodFilter addMethodNameEqualsIgnoreCaseFilter(final String value) {
+	public MethodFilter addNameEqualsIgnoreCaseFilter(final String value) {
 
 		addInternalFilter(new Filter() {
 
