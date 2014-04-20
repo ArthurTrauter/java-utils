@@ -3,9 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.ahaus.dennis</groupId>
 	<artifactId>java-utils</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>${project.artifactId}-${project.version}</name>
-	<description>java-utils-impl</description>
+	<description>java-utils for commons java programming problems</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -28,8 +28,7 @@
 	<scm>
 		<developerConnection>scm:git:https://github.com/DennisAhaus/java-utils.git</developerConnection>
 		<connection>scm:git:ssh://github.com/DennisAhaus/java-utils.git</connection>
-		<url>https://github.com/DennisAhaus/java-utils/</url>
-		<tag>java-utils-0.0.1</tag>
+		<url>https://github.com/DennisAhaus/java-utils/releases</url>
 	</scm>
 
 	<build>
