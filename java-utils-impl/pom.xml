@@ -27,6 +27,8 @@
 
 	<scm>
 		<developerConnection>scm:git:https://github.com/DennisAhaus/java-utils.git</developerConnection>
+		<connection>scm:git:ssh://github.com/DennisAhaus/java-utils.git</connection>
+		<url>https://github.com/DennisAhaus/java-utils/</url>
 		<tag>java-utils-0.0.1</tag>
 	</scm>
 
@@ -44,5 +46,12 @@
 		</plugins>
 	</build>
 
+<distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>Github repo</name>
+      <url>scp://repository.mycompany.com/repository/maven2</url>
+    </repository>
+  </distributionManagement>
 
 </project>
