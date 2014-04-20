@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.ahaus.dennis</groupId>
 	<artifactId>java-utils</artifactId>
-	<version>v0.1-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 	<name>${project.artifactId}-${project.version}</name>
 	<description>java-utils for commons java programming problems</description>
 
@@ -43,6 +43,14 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<tagNameFormat>v@{project.version}</tagNameFormat>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -51,7 +59,7 @@
 			<id>github</id>
 			<name>Github repo</name>
 			<url>scp://repository.mycompany.com/repository/maven2</url>
-			
+
 		</repository>
 	</distributionManagement>
 
