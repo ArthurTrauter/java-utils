@@ -58,7 +58,6 @@
 		<repository>
 			<id>github</id>
 			<name>Github repo</name>
-			<url>scp://repository.mycompany.com/repository/maven2</url>
 
 		</repository>
 	</distributionManagement>
