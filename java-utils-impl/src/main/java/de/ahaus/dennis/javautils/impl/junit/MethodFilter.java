@@ -13,19 +13,7 @@ import java.util.List;
  */
 public class MethodFilter {
 
-	/**
-	 * @author Dennis Ahaus
-	 * 
-	 */
-	public interface Filter {
-		/**
-		 * @param m
-		 * @return
-		 */
-		boolean accept(Method m);
-	}
-
-	private List<Filter> internalFilters = new ArrayList<Filter>();
+	private MethodFilter parentFilter;
 
 	/**
 	 * @param annotationClass
@@ -34,7 +22,7 @@ public class MethodFilter {
 	public MethodFilter addAnnotationFilter(
 			final Class<? extends Annotation> annotationClass) {
 
-		addInternalFilter(new Filter() {
+		MethodFilter filter = new MethodFilter() {
 
 			@Override
 			public boolean accept(Method m) {
@@ -43,132 +31,137 @@ public class MethodFilter {
 				}
 				return false;
 			}
-		});
-		return this;
+		};
+
+		filter.setParentFilter(this);
+		return filter;
 
 	}
 
-	/**
-	 * @param annotationClass
-	 * @return
-	 */
-	public MethodFilter addIsNotDeclaredFilter() {
-
-		addInternalFilter(new Filter() {
-
-			@Override
-			public boolean accept(Method m) {
-				try {
-					m.getDeclaringClass().getDeclaredMethod(m.getName(),
-							m.getParameterTypes());
-					return false;
-				} catch (NoSuchMethodException e) {
-					e.printStackTrace();
-					return true;
-				} catch (SecurityException e) {
-					e.printStackTrace();
-					return true;
-				}
-			}
-		});
-		return this;
-	}
-
-	/**
-	 * @return
-	 */
-	public MethodFilter addIsDeclaredFilter() {
-
-		addInternalFilter(new Filter() {
-
-			@Override
-			public boolean accept(Method m) {
-				try {
-					m.getDeclaringClass().getDeclaredMethod(m.getName(),
-							m.getParameterTypes());
-					return true;
-				} catch (NoSuchMethodException e) {
-					e.printStackTrace();
-				} catch (SecurityException e) {
-					e.printStackTrace();
-				}
-
-				return false;
-			}
-		});
-		return this;
-	}
-
-	/**
-	 * @param modifiers
-	 * @return
-	 */
-	public MethodFilter addExcludeModifierFilter(final int modifier) {
-
-		addInternalFilter(new Filter() {
-
-			@Override
-			public boolean accept(Method m) {
-				int mod = m.getModifiers();
-				if (mod == modifier) {
-					return true;
-				}
-				return false;
-
-			}
-		});
-		return this;
-	}
-
-	/**
-	 * @param value
-	 * @return
-	 */
-	public MethodFilter addNameEqualsFilter(final String value) {
-
-		addInternalFilter(new Filter() {
-
-			@Override
-			public boolean accept(Method m) {
-				if (m.getName().equals(value)) {
-					return true;
-				}
-				return false;
-			}
-		});
-		return this;
-
-	}
-
-	/**
-	 * @param value
-	 * @return
-	 */
-	public MethodFilter addNameEqualsIgnoreCaseFilter(final String value) {
-
-		addInternalFilter(new Filter() {
-
-			@Override
-			public boolean accept(Method m) {
-				if (m.getName().equalsIgnoreCase(value)) {
-					return true;
-				}
-				return false;
-			}
-		});
-		return this;
-
-	}
+	// /**
+	// * @param annotationClass
+	// * @return
+	// */
+	// public MethodFilter addIsNotDeclaredFilter() {
+	//
+	// addInternalFilter(new Filter() {
+	//
+	// @Override
+	// public boolean accept(Method m) {
+	// try {
+	// m.getDeclaringClass().getDeclaredMethod(m.getName(),
+	// m.getParameterTypes());
+	// return false;
+	// } catch (NoSuchMethodException e) {
+	// e.printStackTrace();
+	// return true;
+	// } catch (SecurityException e) {
+	// e.printStackTrace();
+	// return true;
+	// }
+	// }
+	// });
+	// return this;
+	// }
+	//
+	// /**
+	// * @return
+	// */
+	// public MethodFilter addIsDeclaredFilter() {
+	//
+	// addInternalFilter(new Filter() {
+	//
+	// @Override
+	// public boolean accept(Method m) {
+	// try {
+	// m.getDeclaringClass().getDeclaredMethod(m.getName(),
+	// m.getParameterTypes());
+	// return true;
+	// } catch (NoSuchMethodException e) {
+	// e.printStackTrace();
+	// } catch (SecurityException e) {
+	// e.printStackTrace();
+	// }
+	//
+	// return false;
+	// }
+	// });
+	// return this;
+	// }
+	//
+	// /**
+	// * @param modifiers
+	// * @return
+	// */
+	// public MethodFilter addExcludeModifierFilter(final int modifier) {
+	//
+	// addInternalFilter(new Filter() {
+	//
+	// @Override
+	// public boolean accept(Method m) {
+	// int mod = m.getModifiers();
+	// if (mod == modifier) {
+	// return true;
+	// }
+	// return false;
+	//
+	// }
+	// });
+	// return this;
+	// }
+	//
+	// /**
+	// * @param value
+	// * @return
+	// */
+	// public MethodFilter addNameEqualsFilter(final String value) {
+	//
+	// addInternalFilter(new Filter() {
+	//
+	// @Override
+	// public boolean accept(Method m) {
+	// if (m.getName().equals(value)) {
+	// return true;
+	// }
+	// return false;
+	// }
+	// });
+	// return this;
+	//
+	// }
+	//
+	// /**
+	// * @param value
+	// * @return
+	// */
+	// public MethodFilter addNameEqualsIgnoreCaseFilter(final String value) {
+	//
+	// addInternalFilter(new Filter() {
+	//
+	// @Override
+	// public boolean accept(Method m) {
+	// if (m.getName().equalsIgnoreCase(value)) {
+	// return true;
+	// }
+	// return false;
+	// }
+	// });
+	// return this;
+	//
+	// }
 
 	/**
 	 * @param filter
 	 * @return
 	 */
-	public MethodFilter addFilter(Filter filter) {
+	public void setParentFilter(MethodFilter filter) {
 
-		internalFilters.add(filter);
-		return this;
+		parentFilter = filter;
 
+	}
+
+	public MethodFilter getParentFilter() {
+		return parentFilter;
 	}
 
 	/**
@@ -204,35 +197,36 @@ public class MethodFilter {
 	 * @return
 	 */
 	protected List<Method> doFilter(List<Method> methods) {
+
 		List<Method> returningMethods = new ArrayList<Method>();
 		Iterator<Method> methodIterator = methods.iterator();
 		while (methodIterator.hasNext()) {
 			Method method = (Method) methodIterator.next();
-			if (isAccepted(method)) {
+			if (isAccepted(this, method)) {
 				returningMethods.add(method);
 			}
 		}
 		return returningMethods;
 	}
 
-	/**
-	 * @param method
-	 * @return
-	 */
-	protected boolean isAccepted(Method method) {
-		for (Filter filter : internalFilters) {
-			if (!filter.accept(method)) {
-				return false;
-			}
-		}
+	protected boolean accept(Method m) {
 		return true;
 	}
 
 	/**
-	 * @param filter
+	 * @param method
+	 * @return
 	 */
-	protected void addInternalFilter(Filter filter) {
-		this.internalFilters.add(filter);
+
+	private boolean isAccepted(MethodFilter filter, Method method) {
+
+		if (filter == null) {
+			return true;
+		} else {
+			return filter.accept(method)
+					&& isAccepted(filter.getParentFilter(), method);
+		}
+
 	}
 
 }
