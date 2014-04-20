@@ -25,7 +25,7 @@
 	</dependencies>
 
 	<scm>
-		<developerConnection>scm:git:https://github.com/DennisAhaus/java-utils/tree/master/java-utils-impl/</developerConnection>
+		<developerConnection>scm:git:https://github.com/DennisAhaus/java-utils.git</developerConnection>
 	  <tag>java-utils-0.0.1</tag>
   </scm>
 
