@@ -22,7 +22,7 @@ public class MethodFilter {
 	public MethodFilter addAnnotationFilter(
 			final Class<? extends Annotation> annotationClass) {
 
-		MethodFilter filter = new MethodFilter() {
+		return afterCreation(new MethodFilter() {
 
 			@Override
 			public boolean accept(Method m) {
@@ -31,10 +31,7 @@ public class MethodFilter {
 				}
 				return false;
 			}
-		};
-
-		filter.setParentFilter(this);
-		return filter;
+		});
 
 	}
 
@@ -110,45 +107,48 @@ public class MethodFilter {
 	// return this;
 	// }
 	//
-	// /**
-	// * @param value
-	// * @return
-	// */
-	// public MethodFilter addNameEqualsFilter(final String value) {
-	//
-	// addInternalFilter(new Filter() {
-	//
-	// @Override
-	// public boolean accept(Method m) {
-	// if (m.getName().equals(value)) {
-	// return true;
-	// }
-	// return false;
-	// }
-	// });
-	// return this;
-	//
-	// }
-	//
-	// /**
-	// * @param value
-	// * @return
-	// */
-	// public MethodFilter addNameEqualsIgnoreCaseFilter(final String value) {
-	//
-	// addInternalFilter(new Filter() {
-	//
-	// @Override
-	// public boolean accept(Method m) {
-	// if (m.getName().equalsIgnoreCase(value)) {
-	// return true;
-	// }
-	// return false;
-	// }
-	// });
-	// return this;
-	//
-	// }
+	/**
+	 * @param value
+	 * @return
+	 */
+	public MethodFilter addNameEqualsFilter(final String value) {
+
+		return afterCreation(new MethodFilter() {
+
+			@Override
+			public boolean accept(Method m) {
+				if (m.getName().equals(value)) {
+					return true;
+				}
+				return false;
+			}
+		});
+
+	}
+
+	protected MethodFilter afterCreation(MethodFilter filter) {
+		filter.setParentFilter(this);
+		return filter;
+	}
+
+	/**
+	 * @param value
+	 * @return
+	 */
+	public MethodFilter addNameEqualsIgnoreCaseFilter(final String value) {
+
+		return afterCreation(new MethodFilter() {
+
+			@Override
+			public boolean accept(Method m) {
+				if (m.getName().equalsIgnoreCase(value)) {
+					return true;
+				}
+				return false;
+			}
+		});
+
+	}
 
 	/**
 	 * @param filter
